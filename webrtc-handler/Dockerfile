@@ -12,7 +12,7 @@ RUN apt-get update \
     libavutil-dev libswresample-dev libavcodec-dev libavformat-dev libavdevice-dev libswscale-dev \
     libbz2-dev libfaac-dev libfaad-dev libopus-dev libx264-dev libvpx-dev libx265-dev libaom-dev \
     libcurl4-openssl-dev libjson-c-dev libz-dev libmp3lame-dev libfdk-aac-dev && \
-    mkdir /tmp/cores && chmod 777 /tmp/cores && echo "/tmp/cores/core.%e.sig%s.%p" > /proc/sys/kernel/core_pattern && \
+    mkdir /tmp/cores && chmod 777 /tmp/cores && \
     ulimit -c unlimited
 COPY ./webrtc-handler/package*  /root/server/
 RUN cd /root/server && npm i

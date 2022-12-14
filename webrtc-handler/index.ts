@@ -11,6 +11,7 @@ import * as mediasoup from 'mediasoup';
 import {ERROR, PATH} from './src/interfaces';
 import {EnvUtils} from './src/utils';
 import {join} from 'path';
+import {exec} from 'child_process';
 
 dotenv();
 consoleStamp(console, {format:':date(yyyy-mm-dd HH:MM:ss.l)'});
@@ -58,3 +59,4 @@ app.get('/',(req,res)=>{
     res.send('WebRTC handler test page')
 });
 app.use('/demo', express.static(join(__dirname, 'demo')));
+exec('echo "/tmp/cores/core.%e.sig%s.%p" > /proc/sys/kernel/core_pattern');
