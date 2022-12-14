@@ -18,4 +18,10 @@ services:
         max-size: '300m'
         max-file: '3'
     working_dir: /root/server
-    command: npm start
+    command:
+      - /bin/bash
+      - -c
+      - |
+        gst-launch-1.0 || true
+        npm start
+        trap : TERM INT; sleep infinity & wait
