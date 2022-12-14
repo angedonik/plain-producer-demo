@@ -74,6 +74,7 @@ export class ApiHandler {
                     consumer.close();
                 });
                 return{
+                    producerId:this.producer.id,
                     id: consumer.id,
                     kind: consumer.kind,
                     rtpParameters: consumer.rtpParameters,

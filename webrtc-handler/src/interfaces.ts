@@ -29,6 +29,7 @@ export interface ConsumeResponse {
     type: ConsumerType
     producerPaused: boolean
     kind: MediaKind
+    producerId:string
 }
 export interface PlainProduceResponse{
     payloadType: number
