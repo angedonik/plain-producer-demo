@@ -28,7 +28,7 @@ server.listen(rest.port, rest.ip, async () => {
     const worker = await mediasoup.createWorker({
         ...webRTC.worker, rtcMinPort, rtcMaxPort
     });
-    console.log('starting worker %d %d %d',rtcMinPort,rtcMaxPort)
+    console.log('starting worker %d %d %d',rtcMinPort,rtcMaxPort,worker.pid)
     const router=await worker.createRouter(webRTC.router);
     const h=new ApiHandler(router)
     app.post(`/${PATH.API}/:action`,async (req,res)=>{
