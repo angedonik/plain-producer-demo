@@ -29,10 +29,6 @@ server.listen(rest.port, rest.ip, async () => {
         ...webRTC.worker, rtcMinPort, rtcMaxPort
     });
     console.log('starting worker %d %d %d',rtcMinPort,rtcMaxPort,worker.pid);
-    worker.on('died', () => {
-        console.error('mediasoup worker died, exiting in 2 seconds... [pid:%d]', worker.pid);
-        setTimeout(() => process.exit(1), 2000);
-    });
     const router=await worker.createRouter(webRTC.router);
     const h=new ApiHandler(router);
     worker.on('died', () => {
