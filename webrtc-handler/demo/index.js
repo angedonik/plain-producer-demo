@@ -12,7 +12,6 @@ const $ = document.querySelector.bind(document);
 const $$ = document.querySelectorAll.bind(document);
 const fullscreenButton=$('#fullscreen');
 const playbackVideo=$('#playback-video');
-const unmuteButton=$('#unmute-playback-video');
 if(playbackVideo && fullscreenButton){
     fullscreenButton.addEventListener('click', function (event) {
         event.preventDefault();
@@ -28,18 +27,6 @@ if(playbackVideo && fullscreenButton){
     });
 }
 if(playbackVideo && unmuteButton) {
-    unmuteButton.addEventListener('click', function (event) {
-        event.preventDefault();
-        console.log('muted before',playbackVideo.muted, playbackVideo.volume);
-        playbackVideo.muted=false;
-        playbackVideo.volume=1;
-        console.log('muted after',playbackVideo.muted, playbackVideo.volume);
-        unmuteButton.disabled=true;
-    });
-    playbackVideo.addEventListener('volumechange', function (_) {
-        console.log('volumechange',playbackVideo.muted, playbackVideo.volume);
-        unmuteButton.disabled=!playbackVideo.muted && playbackVideo.volume>0.01;
-    });
     function startPlaying() {
         console.log('trying to play');
         let playPromise = playbackVideo.play();
@@ -47,7 +34,6 @@ if(playbackVideo && unmuteButton) {
             playPromise.then(_ => {
             }).catch(_ => {
                 playbackVideo.muted = true;
-                unmuteButton.disabled = false;
                 playbackVideo.play().then(() => {
                     console.log('errorAutoPlayCallback OK');
                 }, (_) => {
