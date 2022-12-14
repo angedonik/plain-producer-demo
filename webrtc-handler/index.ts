@@ -43,7 +43,7 @@ server.listen(rest.port, rest.ip, async () => {
         };
         if(action in h){
             try {
-                response(await h[action](req.body))
+                response(await h[action](req.body)||{})
             }
             catch (e) {
                 console.error('got error', action, e.stackTrace || e);

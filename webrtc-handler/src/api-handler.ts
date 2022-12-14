@@ -131,7 +131,7 @@ export class ApiHandler {
             'rtph264pay','mtu=1300',`ssrc=${ssrc}`,`pt=${payloadType}`,'!',
             'rtprtxqueue','max-size-time=1000','max-size-packets=0','!','rtpbin.send_rtp_sink_0',
             'rtpbin.send_rtp_src_0','!','udpsink',`host=${listenIp}`,`port=${rtpPort}`,
-            'rtpbin.send_rtcp_src_0','!','udpsink',`host=${listenIp}`,`port=${rtcpPort}`,'sync=false','async=false'],{detached:false,env:{GST_DEBUG:'4'}});
+            'rtpbin.send_rtcp_src_0','!','udpsink',`host=${listenIp}`,`port=${rtcpPort}`,'sync=false','async=false'],{detached:false,env:{GST_DEBUG:'1'}});
         this.gst.stderr?.on('data',(data)=>{
             console.log(data.toString())
         })
