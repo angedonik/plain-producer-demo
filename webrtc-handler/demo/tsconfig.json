@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "allowUnreachableCode": false,
+    "baseUrl": "./",
+    "rootDir": ".",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": true,
+    "lib": [
+      "es2017", "dom"
+    ],
+    "outDir": "./dist",
+    "declaration": true,
+    "target": "es2017"
+  },
+  "include":[
+    "./src/web.ts",
+    "./src/node.ts"
+  ]
+}

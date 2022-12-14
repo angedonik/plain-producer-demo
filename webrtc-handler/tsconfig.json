@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "resolveJsonModule": true,
+    "strictNullChecks": true,
+    "allowUnreachableCode": false,
+    "baseUrl": "./",
+    "rootDir": ".",
+    "sourceMap": true,
+    "moduleResolution": "node",
+    "noUnusedLocals": true
+  }
+}

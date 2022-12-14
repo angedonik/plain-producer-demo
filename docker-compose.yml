@@ -1,0 +1,21 @@
+version: '2.1'
+services:
+  webrtc-handler:
+    build:
+      context: ./
+      dockerfile: ./webrtc-handler/Dockerfile
+    restart: always
+    privileged: true
+    container_name: webrtc-handler
+    network_mode: host
+    hostname: webrtc-handler
+    env_file:
+      - ./.env
+    volumes:
+      - ${DOCKER_VOLUMES}/.env:/root/server/.env:rw
+    logging:
+      options:
+        max-size: '300m'
+        max-file: '3'
+    working_dir: /root/server
+    command: npm start
