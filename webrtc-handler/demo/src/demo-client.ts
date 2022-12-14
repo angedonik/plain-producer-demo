@@ -61,5 +61,6 @@ export class DemoClient {
             }
             this.jsonRequest('closeTransport').catch(e=>void e)
         }
+        this.jsonRequest('stopProducing').catch(e=>void e)
     }
 }

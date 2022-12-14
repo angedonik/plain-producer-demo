@@ -28,9 +28,18 @@ server.listen(rest.port, rest.ip, async () => {
     const worker = await mediasoup.createWorker({
         ...webRTC.worker, rtcMinPort, rtcMaxPort
     });
-    console.log('starting worker %d %d %d',rtcMinPort,rtcMaxPort,worker.pid)
+    console.log('starting worker %d %d %d',rtcMinPort,rtcMaxPort,worker.pid);
+    worker.on('died', () => {
+        console.error('mediasoup worker died, exiting in 2 seconds... [pid:%d]', worker.pid);
+        setTimeout(() => process.exit(1), 2000);
+    });
     const router=await worker.createRouter(webRTC.router);
-    const h=new ApiHandler(router)
+    const h=new ApiHandler(router);
+    worker.on('died', () => {
+        console.error('mediasoup worker died, exiting in 2 seconds... [pid:%d]', worker.pid);
+        setTimeout(() => process.exit(1), 2000);
+        h.stopProducing().catch(e=>void e);
+    });
     app.post(`/${PATH.API}/:action`,async (req,res)=>{
         const action=req.params.action;
         console.info('got message', action, JSON.stringify(req.body));

@@ -17,6 +17,7 @@
             playbackVideo.srcObject=new MediaStream([track]);
             startPlaying();
         }
+        stopButton.disabled=false;
     });
     function stop(event){
         if(event){
