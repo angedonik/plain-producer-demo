@@ -8,7 +8,7 @@ module.exports = (env,argv) => {
         output: {
             filename: 'index.js',
             path: path.resolve(__dirname, 'dist'),
-            library: 'DemoClient',
+            library: 'DemoClientLib',
             libraryTarget: 'umd',
             globalObject: 'this'
         },

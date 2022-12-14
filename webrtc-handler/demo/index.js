@@ -1,4 +1,4 @@
-const {Utils,DemoClient}=DemoClient;
+const {Utils,DemoClient}=window.DemoClientLib;
 function getParameterByName(name, url) {
     if (!url) url = window.location.href;
     name = name.replace(/[\[\]]/g, "\\$&");
