@@ -16,7 +16,6 @@
     "target": "es2017"
   },
   "include":[
-    "./src/web.ts",
-    "./src/node.ts"
+    "./src/index.ts"
   ]
 }
