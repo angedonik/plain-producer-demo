@@ -10,6 +10,7 @@ import {rest, webRTC} from './src/conf';
 import * as mediasoup from 'mediasoup';
 import {ERROR, PATH} from './src/interfaces';
 import {EnvUtils} from './src/utils';
+import {join} from 'path';
 
 dotenv();
 consoleStamp(console, {format:':date(yyyy-mm-dd HH:MM:ss.l)'});
@@ -56,3 +57,4 @@ server.listen(rest.port, rest.ip, async () => {
 app.get('/',(req,res)=>{
     res.send('WebRTC handler test page')
 });
+app.use('/demo', express.static(join(__dirname, 'demo')));
