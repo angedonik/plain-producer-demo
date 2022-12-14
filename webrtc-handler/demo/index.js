@@ -26,7 +26,7 @@ if(playbackVideo && fullscreenButton){
         }
     });
 }
-if(playbackVideo && unmuteButton) {
+if(playbackVideo) {
     function startPlaying() {
         console.log('trying to play');
         let playPromise = playbackVideo.play();
