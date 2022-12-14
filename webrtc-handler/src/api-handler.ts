@@ -118,7 +118,7 @@ export class ApiHandler {
         this.gst?.kill()
         const {ssrc,listenIp,rtpPort,rtcpPort,payloadType}=await this.plainProduce();
         this.ffmpeg=spawn('ffmpeg',['-analyzeduration','20M','-probesize','20M','-re','-i',url,'-map','0:v:0','-c:v','copy',
-            '-async','10000','-f','tee',`[select=v:f=h264]tcp://127.0.0.1:${tcpPort}?timeout=1000000000`]);
+            '-async','10000','-f','tee',`[select=v:f=h264]tcp://127.0.0.1:${tcpPort}?timeout=1000000000`],{detached:false});
         this.ffmpeg.stderr?.on('data',(data)=>{
             console.log(data.toString())
         })
@@ -131,7 +131,7 @@ export class ApiHandler {
             'rtph264pay','mtu=1300',`ssrc=${ssrc}`,`pt=${payloadType}`,'!',
             'rtprtxqueue','max-size-time=1000','max-size-packets=0','!','rtpbin.send_rtp_sink_0',
             'rtpbin.send_rtp_src_0','!','udpsink',`host=${listenIp}`,`port=${rtpPort}`,
-            'rtpbin.send_rtcp_src_0','!','udpsink',`host=${listenIp}`,`port=${rtcpPort}`,'sync=false','async=false']);
+            'rtpbin.send_rtcp_src_0','!','udpsink',`host=${listenIp}`,`port=${rtcpPort}`,'sync=false','async=false'],{detached:false,env:{GST_DEBUG:'4'}});
         this.gst.stderr?.on('data',(data)=>{
             console.log(data.toString())
         })
