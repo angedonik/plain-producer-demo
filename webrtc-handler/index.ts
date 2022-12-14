@@ -5,7 +5,7 @@ import * as cors from 'cors';
 import consoleStamp from 'console-stamp';
 import {json as jsonBodyParser} from "body-parser";
 import * as router from 'router';
-import {ApiHandler} from './src/classes/api-handler';
+import {ApiHandler} from './src/api-handler';
 import {rest, webRTC} from './src/conf';
 import * as mediasoup from 'mediasoup';
 import {ERROR, PATH} from './src/interfaces';

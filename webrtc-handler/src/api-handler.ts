@@ -1,16 +1,15 @@
-import {tcpPort, videoCodec, webRTC} from '../conf';
-import {iceServers} from '../ice-server';
-import {RtpCapabilities as ClientRtpCapabilities} from 'mediasoup-client/lib/RtpParameters';
-import {IceCandidate, TransportOptions} from 'mediasoup-client/lib/Transport';
+import {tcpPort, videoCodec, webRTC} from './conf';
+import {iceServers} from './ice-server';
 import {
     ConnectTransportRequest,
     ConsumeRequest,
     ConsumeResponse,
     ERROR,
     PlainProduceResponse,
-    ServerConfigs
-} from '../interfaces';
-import {ssrcRandom} from '../utils';
+    ServerConfigs,
+    TransportOptions
+} from './interfaces';
+import {ssrcRandom} from './utils';
 import {Router} from 'mediasoup/node/lib/Router';
 import {Producer} from 'mediasoup/node/lib/Producer';
 import {Transport} from 'mediasoup/node/lib/Transport';
@@ -29,7 +28,7 @@ export class ApiHandler {
     }
     async getServerConfigs():Promise<ServerConfigs>{
         return {
-            routerRtpCapabilities: this.router.rtpCapabilities as ClientRtpCapabilities,
+            routerRtpCapabilities: this.router.rtpCapabilities,
             iceServers
         };
     }
@@ -43,7 +42,7 @@ export class ApiHandler {
         return {
             id: transport.id,
             iceParameters: transport.iceParameters,
-            iceCandidates: transport.iceCandidates as IceCandidate[],
+            iceCandidates: transport.iceCandidates,
             dtlsParameters: transport.dtlsParameters
         };
     }

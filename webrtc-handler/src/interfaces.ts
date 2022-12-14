@@ -4,7 +4,7 @@ import {TransportListenIp} from 'mediasoup/node/lib/Transport';
 import {MediaKind, RtpCapabilities, RtpCodecParameters, RtpParameters} from 'mediasoup/node/lib/RtpParameters';
 import {ConsumerType} from 'mediasoup/node/lib/Consumer';
 import {PlainTransportOptions} from 'mediasoup/node/lib/PlainTransport';
-import {DtlsParameters} from 'mediasoup/node/lib/WebRtcTransport';
+import {DtlsParameters, IceCandidate, IceParameters} from 'mediasoup/node/lib/WebRtcTransport';
 
 export enum ERROR {UNKNOWN,INVALID_TRANSPORT,INVALID_PRODUCER,INVALID_ACTION}
 export enum PATH {API = "api"}
@@ -53,3 +53,9 @@ export interface MediaSoupDefaultSettings extends MediaSoupSettings{
 export interface CodecParameters extends RtpCodecParameters{
     kind:MediaKind
 }
+export type TransportOptions = {
+    id: string;
+    iceParameters: IceParameters;
+    iceCandidates: IceCandidate[];
+    dtlsParameters: DtlsParameters;
+};
