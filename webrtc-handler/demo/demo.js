@@ -29,7 +29,6 @@
         }
         stopButton.disabled=true;
         startButton.disabled=false;
-        unmuteButton.disabled=true;
     }
     stopButton.addEventListener('click', stop);
 
