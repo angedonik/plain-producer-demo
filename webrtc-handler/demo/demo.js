@@ -12,7 +12,7 @@
         startButton.disabled=true;
         event.preventDefault();
         client=new DemoClient();
-        const track=client.start(url);
+        const track=await client.start(url);
         if(track){
             playbackVideo.srcObject=new MediaStream([track]);
             startPlaying();
