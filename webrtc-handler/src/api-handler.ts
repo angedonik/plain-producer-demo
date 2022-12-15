@@ -131,7 +131,7 @@ export class ApiHandler {
         this.gst?.kill()
         const tmpDir=await dir();
         const fifoPath=join(tmpDir.path,'video');
-        mkfifoSync(fifoPath, 664);
+        mkfifoSync(fifoPath, 0o664);
         const {ssrc, listenIp, rtpPort, rtcpPort, payloadType} = await this.plainProduce();
         this.ffmpeg = spawn('ffmpeg', ['-analyzeduration', '20M', '-probesize', '20M', '-re', '-i', url, '-map', '0:v:0', '-c:v', 'copy',
             '-async', '10000', '-f', 'tee', `[select=v:f=h264]${fifoPath}`], {detached: false});
