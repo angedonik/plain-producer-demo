@@ -1,4 +1,5 @@
 import {config as dotenv} from 'dotenv';
+dotenv();
 import {createServer} from 'http';
 import * as express from 'express';
 import * as cors from 'cors';
@@ -13,7 +14,6 @@ import {EnvUtils} from './src/utils';
 import {join} from 'path';
 import {exec} from 'child_process';
 
-dotenv();
 consoleStamp(console, {format:':date(yyyy-mm-dd HH:MM:ss.l)'});
 
 const app = express();
