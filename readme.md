@@ -4,7 +4,6 @@
   - `HANDLER_IP` and `HANDLER_PORT` -  `ip` and `port` for http server
   - `HANDLER_PORT_FROM` and `HANDLER_PORT_TO` - port range for mediasoup worker
   - `TURN_EXTERNAL_IP`,`TURN_LISTENING_PORT`,`TURN_USER`,`TURN_PASSWORD` - coturn options (if needed)
-  - `TCP_PORT` - port for connection between gstreamer and ffmpeg
 - install docker, docker-compose and run `docker-compose up --build`
 
 **Testing:**

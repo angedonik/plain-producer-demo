@@ -1,4 +1,4 @@
-import {tcpPort, videoCodec, webRTC} from './conf';
+import {videoCodec, webRTC} from './conf';
 import {iceServers} from './ice-server';
 import {
     ConnectTransportRequest,
@@ -15,6 +15,9 @@ import {Producer} from 'mediasoup/node/lib/Producer';
 import {Transport} from 'mediasoup/node/lib/Transport';
 import {PlainTransport} from 'mediasoup/node/lib/PlainTransport';
 import {ChildProcess, spawn} from 'child_process';
+import {mkfifoSync} from 'mkfifo';
+import {dir} from 'tmp-promise';
+import {join} from 'path';
 
 export class ApiHandler {
     private readonly router: Router;
@@ -126,18 +129,22 @@ export class ApiHandler {
     async startProducing({url}): Promise<void> {
         this.ffmpeg?.kill()
         this.gst?.kill()
+        const tmpDir=await dir();
+        const fifoPath=join(tmpDir.path,'video');
+        mkfifoSync(fifoPath, 664);
         const {ssrc, listenIp, rtpPort, rtcpPort, payloadType} = await this.plainProduce();
         this.ffmpeg = spawn('ffmpeg', ['-analyzeduration', '20M', '-probesize', '20M', '-re', '-i', url, '-map', '0:v:0', '-c:v', 'copy',
-            '-async', '10000', '-f', 'tee', `[select=v:f=h264]tcp://127.0.0.1:${tcpPort}?timeout=1000000000`], {detached: false});
+            '-async', '10000', '-f', 'tee', `[select=v:f=h264]${fifoPath}`], {detached: false});
         this.ffmpeg.stderr?.on('data', (data) => {
             console.log(data.toString())
         })
         this.ffmpeg.on('exit', () => {
+            tmpDir.cleanup().catch(e=>void e);
             delete this.ffmpeg;
             this.gst?.kill()
         })
         this.gst = spawn('gst-launch-1.0', ['-v', 'rtpbin', 'name=rtpbin', 'rtp-profile=avpf',
-            'tcpserversrc', 'host=127.0.0.1', `port=${tcpPort}`, '!', 'queue', '!', 'h264parse', '!',
+            "filesrc", `location=${fifoPath}`, '!', 'queue', '!', 'h264parse', '!',
             'rtph264pay', 'mtu=1300', `ssrc=${ssrc}`, `pt=${payloadType}`, '!',
             'rtprtxqueue', 'max-size-time=1000', 'max-size-packets=0', '!', 'rtpbin.send_rtp_sink_0',
             'rtpbin.send_rtp_src_0', '!', 'udpsink', `host=${listenIp}`, `port=${rtpPort}`,

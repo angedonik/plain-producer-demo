@@ -5,7 +5,6 @@ export const rest={
     port:EnvUtils.getEnvNum('HANDLER_PORT'),
     ip:EnvUtils.getEnvStr('HANDLER_IP')
 }
-export const tcpPort=EnvUtils.getEnvNum('TCP_PORT')
 export const videoCodec:CodecParameters={
     kind: 'video',
     mimeType: 'video/H264',
