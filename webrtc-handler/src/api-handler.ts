@@ -144,7 +144,7 @@ export class ApiHandler {
             this.gst?.kill()
         })
         this.gst = spawn('gst-launch-1.0', ['-v', 'rtpbin', 'name=rtpbin', 'rtp-profile=avpf',
-            "filesrc", `location=${fifoPath}`, '!', 'queue', '!', 'h264parse', '!',
+            "filesrc", `location=${fifoPath}`,'do-timestamp=true', '!', 'queue', '!', 'h264parse', '!',
             'rtph264pay', 'mtu=1300', `ssrc=${ssrc}`, `pt=${payloadType}`, '!',
             'rtprtxqueue', 'max-size-time=1000', 'max-size-packets=0', '!', 'rtpbin.send_rtp_sink_0',
             'rtpbin.send_rtp_src_0', '!', 'udpsink', `host=${listenIp}`, `port=${rtpPort}`,
