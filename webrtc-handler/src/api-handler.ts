@@ -143,12 +143,17 @@ export class ApiHandler {
             delete this.ffmpeg;
             this.gst?.kill()
         })
-        this.gst = spawn('gst-launch-1.0', ['-v', 'rtpbin', 'name=rtpbin', 'rtp-profile=avpf',
-            "filesrc", `location=${fifoPath}`,'do-timestamp=true', '!', 'queue', '!', 'h264parse', '!',
+        const cmd=['-v', 'rtpbin', 'name=rtpbin', 'rtp-profile=avpf',
+            "filesrc", `location=${fifoPath}`];
+        if(process.env.DO_TIMESTAMP==='true'){
+            cmd.push('do-timestamp=true');
+        }
+        cmd.push( '!', 'queue', '!', 'h264parse', '!',
             'rtph264pay', 'mtu=1300', `ssrc=${ssrc}`, `pt=${payloadType}`, '!',
             'rtprtxqueue', 'max-size-time=1000', 'max-size-packets=0', '!', 'rtpbin.send_rtp_sink_0',
             'rtpbin.send_rtp_src_0', '!', 'udpsink', `host=${listenIp}`, `port=${rtpPort}`,
-            'rtpbin.send_rtcp_src_0', '!', 'udpsink', `host=${listenIp}`, `port=${rtcpPort}`, 'sync=false', 'async=false'], {
+            'rtpbin.send_rtcp_src_0', '!', 'udpsink', `host=${listenIp}`, `port=${rtcpPort}`, 'sync=false', 'async=false');
+        this.gst = spawn('gst-launch-1.0', cmd, {
             detached: false,
             env: {GST_DEBUG: '1'}
         });
